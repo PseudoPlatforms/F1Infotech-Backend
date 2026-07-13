@@ -1,0 +1,42 @@
+[
+  {
+    "id": "managed_services",
+    "name": "Managed Services",
+    "description": "Our Managed Services help organizations proactively manage and optimize their IT infrastructure, ensuring high availability, performance, and business continuity."
+  },
+  {
+    "id": "dc_dr_management",
+    "name": "DC & DR Management",
+    "description": "We provide Data Center (DC) and Disaster Recovery (DR) management services to ensure business continuity, backup, failover, and infrastructure resilience."
+  },
+  {
+    "id": "consulting_services",
+    "name": "Consulting Services",
+    "description": "Our consulting experts help organizations with IT strategy, digital transformation, cloud adoption, infrastructure planning, and technology optimization."
+  },
+  {
+    "id": "cloud_services",
+    "name": "Cloud Services",
+    "description": "We provide cloud migration, cloud management, AWS, Azure, Google Cloud, Kubernetes, DevOps, and cloud security solutions."
+  },
+  {
+    "id": "application_modernization",
+    "name": "Application Modernization",
+    "description": "Modernize legacy applications using microservices, containers, APIs, cloud-native architecture, and DevOps best practices."
+  },
+  {
+    "id": "managed_soc_noc",
+    "name": "Managed SOC & NOC",
+    "description": "24×7 Security Operations Center (SOC) and Network Operations Center (NOC) services including monitoring, incident response, SIEM, and infrastructure monitoring."
+  },
+  {
+    "id": "managed_cybersecurity",
+    "name": "Managed Cybersecurity Services",
+    "description": "Protect your organization with vulnerability management, penetration testing, endpoint protection, firewall management, threat intelligence, and security monitoring."
+  },
+  {
+    "id": "compliance",
+    "name": "Compliance",
+    "description": "We assist organizations in meeting ISO 27001, PCI-DSS, HIPAA, GDPR, RBI, and other regulatory compliance requirements."
+  }
+]

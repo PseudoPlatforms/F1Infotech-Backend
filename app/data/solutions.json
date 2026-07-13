@@ -1,0 +1,90 @@
+[
+  {
+    "category": "Next-Gen Infrastructure",
+    "solutions": [
+      {
+        "name": "Enterprise Compute",
+        "description": "Enterprise-grade compute infrastructure designed for high performance, scalability, and business continuity."
+      },
+      {
+        "name": "HCI",
+        "description": "Hyper-Converged Infrastructure integrates compute, storage, and networking into a single software-defined platform."
+      },
+      {
+        "name": "Cloud",
+        "description": "Cloud migration, cloud management, hybrid cloud, and multi-cloud solutions tailored to your business."
+      },
+      {
+        "name": "Application Modernization",
+        "description": "Modernize legacy applications into secure, scalable cloud-native applications."
+      },
+      {
+        "name": "Virtualization",
+        "description": "Server, desktop, and storage virtualization to improve efficiency and reduce infrastructure costs."
+      },
+      {
+        "name": "Cyber Resilient Infrastructure",
+        "description": "Infrastructure designed to prevent, withstand, and rapidly recover from cyber threats."
+      }
+    ]
+  },
+  {
+    "category": "Modern Networking",
+    "solutions": [
+      {
+        "name": "Enterprise Networking",
+        "description": "Secure, scalable enterprise networking solutions for modern organizations."
+      },
+      {
+        "name": "SD-WAN",
+        "description": "Software Defined WAN solutions delivering secure and optimized connectivity."
+      },
+      {
+        "name": "Enterprise Wi-Fi",
+        "description": "High-performance wireless networking solutions for enterprise environments."
+      }
+    ]
+  },
+  {
+    "category": "Cybersecurity",
+    "solutions": [
+      {
+        "name": "Enterprise Security",
+        "description": "Comprehensive security solutions protecting enterprise IT infrastructure."
+      },
+      {
+        "name": "Data Protection",
+        "description": "Backup, disaster recovery, ransomware protection, and business continuity solutions."
+      },
+      {
+        "name": "SOC & NOC",
+        "description": "24×7 Security Operations Center and Network Operations Center monitoring services."
+      },
+      {
+        "name": "IoT Security",
+        "description": "Secure connected devices and IoT infrastructure from cyber threats."
+      },
+      {
+        "name": "Endpoint Security",
+        "description": "Protect endpoints using advanced endpoint detection and response solutions."
+      }
+    ]
+  },
+  {
+    "category": "AI & Emerging Tech",
+    "solutions": [
+      {
+        "name": "AI",
+        "description": "Artificial Intelligence solutions to automate operations and improve business decision making."
+      },
+      {
+        "name": "Digital Twin",
+        "description": "Digital Twin technology for simulation, monitoring, and optimization."
+      },
+      {
+        "name": "RPA",
+        "description": "Robotic Process Automation to automate repetitive business processes."
+      }
+    ]
+  }
+]
