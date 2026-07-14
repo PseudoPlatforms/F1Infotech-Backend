@@ -52,9 +52,9 @@ def services_flow(session, message):
                     "To connect with our team, please click the button below to visit our Get In Touch page."
                 ),
                 "redirect": {
-                    "text": "Get In Touch",
-                    "url": "http://127.0.0.1:5500/F1Infotech-/getintouch.html"
-                },
+    "text": "Get In Touch",
+    "url": "/getintouch.html"
+},
                 "options": [
                     "Solutions",
                     "Services",
