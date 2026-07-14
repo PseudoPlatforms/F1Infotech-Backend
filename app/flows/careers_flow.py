@@ -16,7 +16,7 @@ def careers_flow(session, message):
                 ),
                 "redirect": {
                     "text": "Open Careers Page",
-                    "url": "http://127.0.0.1:5500/F1Infotech-/careers.html"
+                    "url": "/careers.html"
                 },
                 "options": [
                     "Solutions",
