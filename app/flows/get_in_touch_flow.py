@@ -9,7 +9,7 @@ def get_in_touch_flow(session):
         ),
         "redirect": {
             "text": "Get In Touch",
-            "url": "http://127.0.0.1:5500/F1Infotech-/getintouch.html"
+            "url": "/getintouch.html"
         },
         "options": [
             "Solutions",
