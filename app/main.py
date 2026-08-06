@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.routes.chat import router as chat_router
+from app.routes import recent_activities
 
 from app.database.database import Base, engine
 from app.database.models import Lead
@@ -28,6 +29,7 @@ app.include_router(chat_router)
 app.include_router(careers_router)
 app.include_router(queries_router)
 app.include_router(opportunities_router)
+app.include_router(recent_activities.router)
 
 @app.get("/")
 def home():
