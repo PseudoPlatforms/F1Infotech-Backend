@@ -10,6 +10,8 @@ from app.routes.careers import router as careers_router
 from app.routes.queries import router as queries_router
 from app.models.query import Query
 from app.routes.opportunity import router as opportunities_router
+from app.models.admin import Admin
+from app.routes.auth import router as auth_router
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -29,7 +31,7 @@ app.include_router(chat_router)
 app.include_router(careers_router)
 app.include_router(queries_router)
 app.include_router(opportunities_router)
-app.include_router(recent_activities.router)
+app.include_router(auth_router)
 
 @app.get("/")
 def home():
