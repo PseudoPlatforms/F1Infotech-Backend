@@ -115,17 +115,29 @@ def login(
     request: LoginRequest,
     db: Session = Depends(get_db)
 ):
+    print("Login API called")
+
     admin = (
         db.query(Admin)
         .filter(Admin.email == request.email)
         .first()
     )
 
+    print("Admin object:", admin)
+
+    if admin:
+        print("Email:", admin.email)
+        print("Stored Password:", admin.password)
+
     if not admin:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid email or password"
         )
+
+
+    print("Password:", request.password)
+    print("Length:", len(request.password))
 
     if not verify_password(
         request.password,
