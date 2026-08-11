@@ -12,6 +12,16 @@ class QueryCreate(BaseModel):
     message: str
 
 
+class QueryUpdate(BaseModel):
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = None
+    company: Optional[str] = None
+    message: Optional[str] = None
+    status: Optional[str] = None
+
+
 class QueryResponse(QueryCreate):
     id: int
     status: str

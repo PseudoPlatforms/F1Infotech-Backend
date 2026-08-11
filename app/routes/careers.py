@@ -164,17 +164,22 @@ def get_all_careers(
         .order_by(Career.id.desc())
         .all()
     )
-    
-    @router.put(
+
+
+# =========================================================
+# UPDATE CAREER APPLICATION
+# =========================================================
+
+@router.put(
     "/{career_id}",
     response_model=CareerResponse
 )
-    def update_career(
+def update_career(
     career_id: int,
     data: CareerUpdate,
     db: Session = Depends(get_db)
 ):
-        career = (
+    career = (
         db.query(Career)
         .filter(Career.id == career_id)
         .first()
@@ -202,36 +207,3 @@ def get_all_careers(
     db.refresh(career)
 
     return career
-
-
-@router.delete("/{career_id}")
-def delete_career(
-    career_id: int,
-    db: Session = Depends(get_db)
-):
-    career = (
-        db.query(Career)
-        .filter(Career.id == career_id)
-        .first()
-    )
-
-    if not career:
-        raise HTTPException(
-            status_code=404,
-            detail="Career application not found."
-        )
-
-    resume_path = career.resume_path
-
-    db.delete(career)
-    db.commit()
-
-    if resume_path:
-        resume_file = Path(resume_path)
-
-        if resume_file.exists():
-            resume_file.unlink()
-
-    return {
-        "message": "Career application deleted successfully."
-    }

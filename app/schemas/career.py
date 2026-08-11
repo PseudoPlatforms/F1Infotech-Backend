@@ -5,9 +5,11 @@ from pydantic import BaseModel, EmailStr
 
 
 class CareerResponse(BaseModel):
+
     id: int
     name: str
     email: EmailStr
+
     phone: Optional[str] = None
     position: Optional[str] = None
     experience: Optional[str] = None
@@ -17,12 +19,21 @@ class CareerResponse(BaseModel):
     current_ctc: Optional[str] = None
     expected_ctc: Optional[str] = None
     message: Optional[str] = None
+
     resume_path: Optional[str] = None
     resume_filename: Optional[str] = None
+
     created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
 class CareerUpdate(BaseModel):
+
     name: str
     email: EmailStr
+
     phone: Optional[str] = None
     position: Optional[str] = None
     experience: Optional[str] = None
@@ -32,5 +43,3 @@ class CareerUpdate(BaseModel):
     current_ctc: Optional[str] = None
     expected_ctc: Optional[str] = None
     message: Optional[str] = None
-    class Config:
-        from_attributes = True
