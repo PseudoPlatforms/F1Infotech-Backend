@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from datetime import datetime
+
 from app.database.database import get_db
 from app.models.recent_activity import RecentActivity
 from app.schemas.recent_activity import (
@@ -8,15 +9,17 @@ from app.schemas.recent_activity import (
     RecentActivityResponse
 )
 
+
 router = APIRouter(
     prefix="/recent-activities",
     tags=["Recent Activities"]
 )
 
 
-# -----------------------------
-# login
-# -----------------------------
+# =========================================================
+# LOGIN
+# =========================================================
+
 @router.post("/login")
 def admin_login(db: Session = Depends(get_db)):
 
@@ -30,6 +33,7 @@ def admin_login(db: Session = Depends(get_db)):
 
     db.add(activity)
     db.commit()
+    db.refresh(activity)
 
     return {
         "success": True,
@@ -37,10 +41,10 @@ def admin_login(db: Session = Depends(get_db)):
     }
 
 
+# =========================================================
+# LOGOUT
+# =========================================================
 
-# -----------------------------
-# logout
-# -----------------------------
 @router.post("/logout")
 def admin_logout(db: Session = Depends(get_db)):
 
@@ -54,6 +58,7 @@ def admin_logout(db: Session = Depends(get_db)):
 
     db.add(activity)
     db.commit()
+    db.refresh(activity)
 
     return {
         "success": True,
@@ -61,10 +66,10 @@ def admin_logout(db: Session = Depends(get_db)):
     }
 
 
+# =========================================================
+# ADD OPPORTUNITY
+# =========================================================
 
-# -----------------------------
-# add opportunity
-# -----------------------------
 @router.post("/add-opportunity")
 def add_opportunity_activity(
     opportunity_id: int,
@@ -82,6 +87,7 @@ def add_opportunity_activity(
 
     db.add(activity)
     db.commit()
+    db.refresh(activity)
 
     return {
         "success": True,
@@ -89,10 +95,10 @@ def add_opportunity_activity(
     }
 
 
+# =========================================================
+# DELETE OPPORTUNITY
+# =========================================================
 
-# -----------------------------
-# delete opportunity
-# -----------------------------
 @router.post("/delete-opportunity")
 def delete_opportunity_activity(
     opportunity_id: int,
@@ -110,6 +116,7 @@ def delete_opportunity_activity(
 
     db.add(activity)
     db.commit()
+    db.refresh(activity)
 
     return {
         "success": True,
@@ -117,10 +124,10 @@ def delete_opportunity_activity(
     }
 
 
+# =========================================================
+# RESOLVE QUERY
+# =========================================================
 
-# -----------------------------
-# resolve query
-# -----------------------------
 @router.post("/resolve-query")
 def resolve_query_activity(
     query_id: int,
@@ -138,6 +145,7 @@ def resolve_query_activity(
 
     db.add(activity)
     db.commit()
+    db.refresh(activity)
 
     return {
         "success": True,
@@ -145,10 +153,10 @@ def resolve_query_activity(
     }
 
 
+# =========================================================
+# ADD RECENT ACTIVITY
+# =========================================================
 
-# -----------------------------
-# Add Recent Activity
-# -----------------------------
 @router.post("/", response_model=RecentActivityResponse)
 def add_recent_activity(
     data: RecentActivityCreate,
@@ -170,11 +178,14 @@ def add_recent_activity(
     return activity
 
 
-# -----------------------------
-# Get All Activities
-# -----------------------------
+# =========================================================
+# GET ALL ACTIVITIES
+# =========================================================
+
 @router.get("/")
-def get_recent_activities(db: Session = Depends(get_db)):
+def get_recent_activities(
+    db: Session = Depends(get_db)
+):
 
     activities = (
         db.query(RecentActivity)
@@ -188,50 +199,92 @@ def get_recent_activities(db: Session = Depends(get_db)):
 
     for activity in activities:
 
-        seconds = int((now - activity.created_at).total_seconds())
+        seconds = int(
+            (now - activity.created_at).total_seconds()
+        )
 
         if seconds < 60:
-            time = f"{seconds} seconds ago"
+
+            time = (
+                f"{seconds} second"
+                f"{'s' if seconds != 1 else ''} ago"
+            )
 
         elif seconds < 3600:
+
             minutes = seconds // 60
-            time = f"{minutes} minute{'s' if minutes != 1 else ''} ago"
+
+            time = (
+                f"{minutes} minute"
+                f"{'s' if minutes != 1 else ''} ago"
+            )
 
         elif seconds < 86400:
+
             hours = seconds // 3600
-            time = f"{hours} hour{'s' if hours != 1 else ''} ago"
+
+            time = (
+                f"{hours} hour"
+                f"{'s' if hours != 1 else ''} ago"
+            )
 
         elif seconds < 2592000:
+
             days = seconds // 86400
-            time = f"{days} day{'s' if days != 1 else ''} ago"
+
+            time = (
+                f"{days} day"
+                f"{'s' if days != 1 else ''} ago"
+            )
 
         elif seconds < 31536000:
+
             months = seconds // 2592000
-            time = f"{months} month{'s' if months != 1 else ''} ago"
+
+            time = (
+                f"{months} month"
+                f"{'s' if months != 1 else ''} ago"
+            )
 
         else:
+
             years = seconds // 31536000
-            time = f"{years} year{'s' if years != 1 else ''} ago"
+
+            time = (
+                f"{years} year"
+                f"{'s' if years != 1 else ''} ago"
+            )
 
         response.append({
+
             "id": activity.id,
+
             "admin_id": activity.admin_id,
+
             "module": activity.module,
+
             "activity_type": activity.activity_type,
+
             "reference_id": activity.reference_id,
+
             "description": activity.description,
+
             "created_at": activity.created_at,
+
             "time": time
         })
 
     return response
 
 
-# -----------------------------
-# Dashboard Latest Activities
-# -----------------------------
+# =========================================================
+# DASHBOARD - LATEST 10 ACTIVITIES
+# =========================================================
+
 @router.get("/latest")
-def get_latest_activities(db: Session = Depends(get_db)):
+def get_latest_activities(
+    db: Session = Depends(get_db)
+):
 
     activities = (
         db.query(RecentActivity)
@@ -246,36 +299,78 @@ def get_latest_activities(db: Session = Depends(get_db)):
 
     for activity in activities:
 
-        seconds = int((now - activity.created_at).total_seconds())
+        seconds = int(
+            (now - activity.created_at).total_seconds()
+        )
 
         if seconds < 60:
-            time = f"{seconds} seconds ago"
+
+            time = (
+                f"{seconds} second"
+                f"{'s' if seconds != 1 else ''} ago"
+            )
 
         elif seconds < 3600:
+
             minutes = seconds // 60
-            time = f"{minutes} minute{'s' if minutes != 1 else ''} ago"
+
+            time = (
+                f"{minutes} minute"
+                f"{'s' if minutes != 1 else ''} ago"
+            )
 
         elif seconds < 86400:
+
             hours = seconds // 3600
-            time = f"{hours} hour{'s' if hours != 1 else ''} ago"
+
+            time = (
+                f"{hours} hour"
+                f"{'s' if hours != 1 else ''} ago"
+            )
 
         elif seconds < 2592000:
+
             days = seconds // 86400
-            time = f"{days} day{'s' if days != 1 else ''} ago"
+
+            time = (
+                f"{days} day"
+                f"{'s' if days != 1 else ''} ago"
+            )
 
         elif seconds < 31536000:
+
             months = seconds // 2592000
-            time = f"{months} month{'s' if months != 1 else ''} ago"
+
+            time = (
+                f"{months} month"
+                f"{'s' if months != 1 else ''} ago"
+            )
 
         else:
+
             years = seconds // 31536000
-            time = f"{years} year{'s' if years != 1 else ''} ago"
+
+            time = (
+                f"{years} year"
+                f"{'s' if years != 1 else ''} ago"
+            )
 
         response.append({
+
             "id": activity.id,
+
+            "admin_id": activity.admin_id,
+
             "module": activity.module,
+
             "activity_type": activity.activity_type,
+
+            "reference_id": activity.reference_id,
+
             "description": activity.description,
+
+            "created_at": activity.created_at,
+
             "time": time
         })
 
