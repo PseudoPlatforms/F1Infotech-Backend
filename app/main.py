@@ -14,6 +14,8 @@ from app.routes.opportunity import router as opportunities_router
 
 from app.models.admin import Admin
 from app.routes.auth import router as auth_router
+from fastapi.staticfiles import StaticFiles
+from pathlib import Path
 
 
 # Create database tables
@@ -21,6 +23,14 @@ Base.metadata.create_all(bind=engine)
 
 
 app = FastAPI(title="F1 InfoTech Chatbot")
+UPLOAD_DIRECTORY = Path("uploads")
+UPLOAD_DIRECTORY.mkdir(parents=True, exist_ok=True)
+
+app.mount(
+    "/uploads",
+    StaticFiles(directory=str(UPLOAD_DIRECTORY)),
+    name="uploads"
+)
 
 
 # CORS

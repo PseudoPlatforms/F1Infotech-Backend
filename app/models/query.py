@@ -16,4 +16,14 @@ class Query(Base):
     company = Column(String(200), nullable=False)
     message = Column(Text, nullable=False)
 
-    created_at = Column(TIMESTAMP, server_default=func.now())
+    status = Column(
+        String(50),
+        nullable=False,
+        default="pending",
+        server_default="pending"
+    )
+
+    created_at = Column(
+        TIMESTAMP,
+        server_default=func.now()
+    )

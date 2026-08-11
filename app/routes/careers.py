@@ -16,8 +16,7 @@ from sqlalchemy.orm import Session
 
 from app.database.database import get_db
 from app.models.career import Career
-from app.schemas.career import CareerResponse
-
+from app.schemas.career import CareerResponse, CareerUpdate
 
 router = APIRouter(
     prefix="/careers",
@@ -165,3 +164,74 @@ def get_all_careers(
         .order_by(Career.id.desc())
         .all()
     )
+    
+    @router.put(
+    "/{career_id}",
+    response_model=CareerResponse
+)
+    def update_career(
+    career_id: int,
+    data: CareerUpdate,
+    db: Session = Depends(get_db)
+):
+        career = (
+        db.query(Career)
+        .filter(Career.id == career_id)
+        .first()
+    )
+
+    if not career:
+        raise HTTPException(
+            status_code=404,
+            detail="Career application not found."
+        )
+
+    career.name = data.name
+    career.email = data.email
+    career.phone = data.phone
+    career.position = data.position
+    career.experience = data.experience
+    career.current_company = data.current_company
+    career.current_designation = data.current_designation
+    career.notice_period = data.notice_period
+    career.current_ctc = data.current_ctc
+    career.expected_ctc = data.expected_ctc
+    career.message = data.message
+
+    db.commit()
+    db.refresh(career)
+
+    return career
+
+
+@router.delete("/{career_id}")
+def delete_career(
+    career_id: int,
+    db: Session = Depends(get_db)
+):
+    career = (
+        db.query(Career)
+        .filter(Career.id == career_id)
+        .first()
+    )
+
+    if not career:
+        raise HTTPException(
+            status_code=404,
+            detail="Career application not found."
+        )
+
+    resume_path = career.resume_path
+
+    db.delete(career)
+    db.commit()
+
+    if resume_path:
+        resume_file = Path(resume_path)
+
+        if resume_file.exists():
+            resume_file.unlink()
+
+    return {
+        "message": "Career application deleted successfully."
+    }
