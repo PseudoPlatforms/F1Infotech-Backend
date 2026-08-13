@@ -207,3 +207,61 @@ def update_career(
     db.refresh(career)
 
     return career
+
+    # =========================================================
+# DELETE CAREER APPLICATION
+# =========================================================
+
+@router.delete(
+    "/{career_id}"
+)
+def delete_career(
+    career_id: int,
+    db: Session = Depends(get_db)
+):
+    career = (
+        db.query(Career)
+        .filter(Career.id == career_id)
+        .first()
+    )
+
+    if not career:
+        raise HTTPException(
+            status_code=404,
+            detail="Career application not found."
+        )
+
+    # Delete resume file if it exists
+    if career.resume_path:
+        resume_file = Path(career.resume_path)
+
+        if resume_file.exists():
+            try:
+                resume_file.unlink()
+            except Exception as error:
+                print(
+                    "Unable to delete resume file:",
+                    repr(error)
+                )
+
+    try:
+        db.delete(career)
+        db.commit()
+
+        return {
+            "message": "Career application deleted successfully.",
+            "career_id": career_id
+        }
+
+    except Exception as error:
+        db.rollback()
+
+        print(
+            "Career deletion error:",
+            repr(error)
+        )
+
+        raise HTTPException(
+            status_code=500,
+            detail="Unable to delete career application."
+        ) from error
